@@ -9,13 +9,13 @@
 
 {% block content %}
 
-<hr class="featurette-divider">
-<div class="container">
+<!--<hr class="featurette-divider">-->
+<div class="container mt-1">
     <div class="row featurette">
           <div class="col-md-7 order-md-2">
 {#            <h3 class="featurette-heading">{{ wheel.name }}</h3>#}
 
-  <div class="bd-example"  style="height: 700px">
+  <div class="bd-example"  style="height: 550px">
           <nav id="navbar-example2" class="navbar bg-light px-3">
             <h3 class="featurette-heading">{{ wheel.name }} <br> {{ wheel.price }}₽</h3>
                 {% if user.is_authenticated %}
@@ -36,10 +36,43 @@
           </div>
 
         <div class="tab-content" id="nav-tabContent">
-          <div class="tab-pane fade active show" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            <p class="nav-link px-2 text-dark">Диаметр: {{ wheel.diametr }}</p>
-            <p class="nav-link px-2 text-dark">Ширина: {{ wheel.shirina }}</p>
-            <p class="nav-link px-2 text-dark">Профиль: {{ wheel.profil }}</p>
+          <div class="tab-pane fade active show" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" style="overflow-x: hidden;">
+              <div class="row">
+                  <div class="col-4">
+                        <p class="nav-link px-2 text-dark"><b>Диаметр:</b></p>
+                        <p class="nav-link px-2 text-dark"><b>Ширина:</b></p>
+                        <p class="nav-link px-2 text-dark"><b>Профиль:</b></p>
+
+                        <p class="nav-link px-2 text-dark"><b>Производитель:</b></p>
+                        <p class="nav-link px-2 text-dark"><b>Модель:</b></p>
+                        <p class="nav-link px-2 text-dark"><b>Сезонность:</b></p>
+
+                        <p class="nav-link px-2 text-dark"><b>Индекс скорости:</b></p>
+                        <p class="nav-link px-2 text-dark"><b>Индекс нагрузки:</b></p>
+                        <p class="nav-link px-2 text-dark"><b>Остаток на складе:</b></p>
+                  </div>
+                  <div class="col">
+                      <p> {{ wheel.diametr }}</p>
+                      <p> {{ wheel.shirina }}</p>
+                      <p> {{ wheel.profil }}</p>
+                      <p> {{ wheel.manufacturer }}</p>
+                      <p> {{ wheel.model_manufacturer }}</p>
+                      <p> {{ wheel.season }}</p>
+                      <p> {{ wheel.speed }}</p>
+                      <p> {{ wheel.ves }}</p>
+                      <p> {{ wheel.ostatok }}</p>
+                  </div>
+<!--                <p class="nav-link px-2 text-dark"><b>Ширина:</b> {{ wheel.shirina }}</p>-->
+<!--                <p class="nav-link px-2 text-dark"><b>Профиль:</b> {{ wheel.profil }}</p>-->
+
+<!--                <p class="nav-link px-2 text-dark"><b>Производитель:</b> {{ wheel.manufacturer }}</p>-->
+<!--                <p class="nav-link px-2 text-dark"><b>Модель:</b> {{ wheel.model_manufacturer }}</p>-->
+<!--                <p class="nav-link px-2 text-dark"><b>Сезонность:</b> {{ wheel.season }}</p>-->
+
+<!--                <p class="nav-link px-2 text-dark"><b>Индекс скорости:</b> {{ wheel.speed }}</p>-->
+<!--                <p class="nav-link px-2 text-dark"><b>Индекс нагрузки:</b> {{ wheel.ves }}</p>-->
+<!--                <p class="nav-link px-2 text-dark"><b>Остаток на складе:</b> {{ wheel.ostatok }}</p>-->
+              </div>
           </div>
           <div class="tab-pane fade layer" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                 <p class="nav-link px-2 text-dark" style="white-space: pre-line">{{ wheel.text }}</p>
@@ -108,7 +141,7 @@
 
 <div class="row g-5" style="height: 550px">
       <div class="col-md-7 col-lg-8">
-        <h4 class="mb-3">Остались вопросы?</h4>
+          <h4 class="mb-3"><b>Остались вопросы?</b></h4>
         <form class="needs-validation" novalidate="" method="post">
             {% csrf_token %}
 

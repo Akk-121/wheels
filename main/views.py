@@ -35,9 +35,12 @@ def wheels(request):
             if str(form.cleaned_data['shirina']) != 'Ширина профиля':
                 filt['shirina'] = str(form.cleaned_data['shirina'])
 
-            profil = form.cleaned_data['profil']
-            season = form.cleaned_data['season']
-            manufacturer = form.cleaned_data['manufacturer']
+            if str(form.cleaned_data['profil']) != 'Высота профиля':
+                filt['profil'] = str(form.cleaned_data['profil'])
+            if str(form.cleaned_data['season']) != 'Сезон':
+                filt['season'] = str(form.cleaned_data['season'])
+            if str(form.cleaned_data['manufacturer']) != 'Производитель':
+                filt['manufacturer'] = str(form.cleaned_data['manufacturer'])
 
             try:
                 sh1 = shop.objects.filter(diametr=filt['diametr'])
@@ -49,9 +52,26 @@ def wheels(request):
             except:
                 sh2 = sh1
 
-            return render(request, 'main/wheels.html', {'shop': sh2, 'form': form})
+            try:
+                sh3 = sh2.filter(profil=filt['profil'])
+            except:
+                sh3 = sh2
+
+            try:
+                sh4 = sh3.filter(season=filt['season'])
+            except:
+                sh4 = sh3
+
+            try:
+                sh5 = sh4.filter(manufacturer=filt['manufacturer'])
+            except:
+                sh5 = sh4
+
+            long = len(sh5)
+            return render(request, 'main/wheels.html', {'shop': sh5, 'form': form, 'long': long})
     form = templateselect()
-    return render(request, 'main/wheels.html', {'shop':sh, 'form':form})
+    long = len(sh)
+    return render(request, 'main/wheels.html', {'shop':sh, 'form':form, 'long': long})
 
 
 def wheelsDetail(request, pk:int):
