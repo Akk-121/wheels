@@ -1,0 +1,178 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}
+{{ wheel.name }}
+{% endblock %}
+
+
+
+{% block content %}
+
+<hr class="featurette-divider">
+<div class="container">
+    <div class="row featurette">
+          <div class="col-md-7 order-md-2">
+{#            <h3 class="featurette-heading">{{ wheel.name }}</h3>#}
+
+  <div class="bd-example"  style="height: 700px">
+          <nav id="navbar-example2" class="navbar bg-light px-3">
+            <h3 class="featurette-heading">{{ wheel.name }} <br> {{ wheel.price }}₽</h3>
+                {% if user.is_authenticated %}
+                    <button type="button" class="btn btn-sm btn-success"><h3>Купить</h3></button>
+                {% else %}
+                    <button onclick="document.location='{% url 'login' %}?next={{ request.path }}'" type="button" class="btn btn-outline-success me-3"><h3>Купить</h3></button>
+                {% endif %}
+          </nav>
+  <div class="bd-example">
+
+
+
+    <div data-bs-spy="scroll" data-bs-offset="0" class="scrollspy-example position-relative mt-2 overflow-auto">
+        <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Характеристики</button>
+            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false" tabindex="-1">Описание</button>
+{#            <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false" tabindex="-1">Contact</button>#}
+          </div>
+
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade active show" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <p class="nav-link px-2 text-dark">Диаметр: {{ wheel.diametr }}</p>
+            <p class="nav-link px-2 text-dark">Ширина: {{ wheel.shirina }}</p>
+            <p class="nav-link px-2 text-dark">Профиль: {{ wheel.profil }}</p>
+          </div>
+          <div class="tab-pane fade layer" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <p class="nav-link px-2 text-dark" style="white-space: pre-line">{{ wheel.text }}</p>
+          </div>
+{#          <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">#}
+{#            <p>This is some placeholder content the <strong>Contact tab's</strong> associated content. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling. You can use it with tabs, pills, and any other <code>.nav</code>-powered navigation.</p>#}
+{#          </div>#}
+        </div>
+        </div>
+    </div>
+</div>
+
+</div>
+    <div class="col-md-5 order-md-1">
+
+        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+          <center>
+        <img class="featurette-image img-fluid mx-auto" alt="фото не отобразилось" src="{{ wheel.img.url }}" data-holder-rendered="true" style="height: 500px">
+          </center>
+          <div class="container">
+          <div class="carousel-caption text-start">
+
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+        <div class="container">
+          <div class="carousel-caption">
+
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+        <div class="container">
+          <div class="carousel-caption text-end">
+
+          </div>
+        </div>
+      </div>
+    </div>
+     <button class="carousel-control-prev " type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+          <path fill="#272727" d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.759l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+        </svg>
+{#      <span class="carousel-control-prev-icon" aria-hidden="true"></span>#}
+{#      <span class="visually-hidden">Previous</span>#}
+    </button>
+    <button class="carousel-control-next " type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+            <path fill="#272727" d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+        </svg>
+{#      <span class="carousel-control-next-icon"  aria-hidden="true"></span>#}
+{#      <span class="visually-hidden" >Next</span>#}
+    </button>
+  </div>
+    </div>
+</div>
+
+{# input #}
+
+<div class="row g-5" style="height: 550px">
+      <div class="col-md-7 col-lg-8">
+        <h4 class="mb-3">Остались вопросы?</h4>
+        <form class="needs-validation" novalidate="" method="post">
+            {% csrf_token %}
+
+          <div class="row g-3">
+
+              <div class="col-12">
+              <div class="input-group has-validation">
+                  {{ form.about }}
+{#                  <textarea style="max-height: 150px" class="form-control" id="text" placeholder="Опишите свой вопрос" required=""></textarea>#}
+                <div class="invalid-feedback">
+                  Your username is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+{#              <label for="firstName" class="form-label">Имя</label>#}
+                {{ form.first_name }}
+{#              <input type="text" class="form-control" id="firstName" placeholder="Имя" value="" required="">#}
+              <div class="invalid-feedback">
+                Valid first name is required.
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+{#              <label for="lastName" class="form-label">Фамилия</label>#}
+{#              <input type="text" class="form-control" id="lastName" placeholder="Фамилия" value="" required="">#}
+                {{ form.last_name }}
+              <div class="invalid-feedback">
+                Valid last name is required.
+              </div>
+            </div>
+
+            <div class="col-12">
+{#              <label for="username" class="form-label">Телефон</label>#}
+              <div class="input-group has-validation">
+{#                <span class="input-group-text">@</span>#}
+{#                <input type="text" class="form-control" id="number" placeholder="Номер телефона" required="">#}
+                  {{ form.number }}
+                <div class="invalid-feedback">
+                  Your username is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12">
+{#              <label for="email" class="form-label">Почта @</label>#}
+                {{ form.email }}
+{#              <input type="email" class="form-control" id="email" placeholder="Email@mail.ru">#}
+              <div class="invalid-feedback">
+                Please enter a valid email address for shipping updates.
+              </div>
+            </div>
+          </div>
+
+          <button class="w-10 btn btn-primary btn-lg mt-3" type="submit">Оставить заявку</button>
+
+        </form>
+      </div>
+</div>
+
+
+
+</div>
+
+{#<hr class="featurette-divider">#}
+{% endblock %}

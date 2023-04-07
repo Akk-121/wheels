@@ -1,0 +1,54 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}
+    Диски
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+
+{#    <h3>{{ element.name }}</h3>#}
+{#    <p>{{ element.text }}</p>#}
+{#    <p>{{ element.price }}</p>#}
+{#    <img src="{{ element.img.url }}" style="width: 400px; height: 250px">#}
+
+
+
+    <div class="album py-5 bg-light">
+    <div class="container">
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+{% for element in shop %}
+
+        <div class="col">
+          <div class="card shadow-sm">
+              <img src="{{ element.img.url }}" class="bd-placeholder-img card-img-top" width="100%" height="225">
+{#            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>#}
+
+            <div class="card-body">
+                <p class="card-text"><b>{{ element.radio }} {{ element.name }}</b></p>
+                <p class="card-text">{{ element.price }} ₽</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+{#                  <button onclick="document.location='{% url 'shoplist' element.id %}?next={{ request.path }}'" type="button" class="btn btn-sm btn-outline-secondary">Купить</button>#}
+                  <button onclick="document.location='{% url 'disksdetail' element.id %}?next={{ request.path }}'" type="button" class="btn btn-sm btn-outline-secondary">Подробнее</button>
+                </div>
+                <small class="text-muted">Диаметр {{ element.diametr }}</small>
+                  <small class="text-muted">Вылет {{ element.shirina }}</small>
+                  <small class="text-muted">Крепеж {{ element.profil }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+{% endfor %}
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

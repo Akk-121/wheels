@@ -1,0 +1,38 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}
+    Главная страница
+{% endblock %}
+
+
+
+{% block content %}
+
+<main>
+<div class="d-md-flex flex-md-equal w-100 my-md-5 ps-md-3">
+    <a href="{% url 'wheels' %}">
+    <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden" style="height: 700px; box-shadow: 0 0 10px rgba(0,0,0,0.5); border-radius: 21px 21px 21px 21px;">
+      <div class="my-2 py-2">
+          <h1 class="text-dark" style="font-size: 75px">Шины</h1>
+            <p class="lead text-dark" style="font-size: 30px">Сделай свой выбор</p>
+      </div>
+<!--      <div class="bg-light shadow-sm mx-auto" style="width: 90%; height: 400px; border-radius: 21px 21px 21px 21px;">-->
+          <img class="bg-light shadow-sm mx-auto" style="width: 90%; height: 400px; border-radius: 21px 21px 21px 21px;" src="{% static '/icon/shini.jpg' %}">
+<!--      </div>-->
+    </div>
+    </a>
+
+    <a href="{% url 'disks' %}">
+    <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-3 text-center overflow-hidden" style="height: 700px; box-shadow: 0 0 10px rgba(0,0,0,0.5); ; border-radius: 21px 21px 21px 21px;">
+      <div class="my-2 p-2">
+        <h2 class="text-dark" style="font-size: 75px">Диски</h2>
+        <p class="lead text-dark" style="font-size: 30px">Сделай свой выбор</p>
+      </div>
+{#      <div class="bg-dark shadow-sm mx-auto" style="width: 90%; height:400px; border-radius: 21px 21px 21px 21px;"></div>#}
+        <img class="bg-light shadow-sm mx-auto" style="width: 90%; height: 400px; border-radius: 21px 21px 21px 21px;" src="{% static '/icon/diski.jpg' %}">
+    </div>
+        </a>
+  </div>
+</main>
+{% endblock %}

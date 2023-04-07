@@ -1,0 +1,54 @@
+{% extends "main/base.html" %}
+{% block title %}
+Вход
+{% endblock %}
+{% block content %}
+
+<hr class="featurette-divider">
+<center>
+
+<form method="post" action="{% url 'login' %}">
+{% csrf_token %}
+
+    <h1 class="h3 mb-3 fw-normal">Войдите в аккаунт</h1>
+
+<table>
+
+<tr class="form-floating">
+  <td >Ваш никнейм: </td>
+  <td >{{ form.username }}</td>
+<tr/>
+
+<tr class="form-floating">
+  <td >{{ form.password.label_tag }}</td>
+  <td >{{ form.password }}</td>
+<tr/>
+</table>
+
+<input class="btn btn-success mb-3 mt-4" type="submit" value="Войти" />
+
+</form>
+
+
+<hr class="featurette-divider">
+
+{% if form.errors %}
+        <div class="container">
+  <p class="font-weight-bold" style="color: crimson;">Ваше имя пользователя и пароль не совподают. Пожалуйста, попробуйте еще раз!</p>
+        </div>
+{% endif %}
+
+{% if next %}
+  {% if user.is_authenticated %}
+      <div class="container">
+    <p class="font-weight-bold" style="color: crimson;">
+      У вашей учетной записи нет доступа к этой странице.
+        Чтобы продолжить, войдите в систему с учетной записью, у которой есть доступ </p>
+      </div>
+  {% endif %}
+{% endif %}
+
+</div>
+</center>
+
+{% endblock %}

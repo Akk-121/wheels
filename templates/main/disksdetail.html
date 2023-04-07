@@ -1,0 +1,35 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}
+{{ wheel.name }}
+{% endblock %}
+
+
+
+{% block content %}
+
+<hr class="featurette-divider">
+<div class="container">
+    <div class="row featurette">
+          <div class="col-md-7 order-md-2">
+            <h3 class="featurette-heading">{{ wheel.name }}</h3>
+            <p class="lead">{{ wheel.text }}</p>
+          </div>
+          <div class="col-md-5 order-md-1">
+            <img class="featurette-image img-fluid mx-auto" alt="фото не отобразилось" src="{{ wheel.img.url }}" data-holder-rendered="true">
+          </div>
+        </div>
+
+<h3 class="featurette-heading" >{{ wheel.price }} ₽</h3>
+{% if user.is_authenticated %}
+    <button type="button" class="btn btn-sm btn-outline-success">Купить</button>
+{% else %}
+    <button onclick="document.location='{% url 'login' %}?next={{ request.path }}'" type="button" class="btn btn-outline-success me-2">Купить</button>
+{% endif %}
+
+
+</div>
+
+<hr class="featurette-divider">
+{% endblock %}

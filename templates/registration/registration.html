@@ -1,0 +1,35 @@
+{% extends "main/base.html" %}
+{% block title %}
+Регистрация
+{% endblock %}
+
+{% block content %}
+
+<center>
+
+<hr class="featurette-divider">
+
+<form method="post" class=" mb-1" style="max-width: 300px">
+    {% csrf_token %}
+    {{ form.username }}<br>
+    {{ form.name }}<br>
+    {{ form.email }}<br>
+    {{ form.password1 }}<br>
+    {{ form.password2 }}<br>
+    <button type="submit" class="btn btn-success">Зарегестрироваться</button>
+
+</form>
+
+<hr class="featurette-divider">
+
+{% if form.errors %}
+        <div class="container">
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                    <p class="font-weight-bold" style="color: crimson;">{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+{% endif %}
+</center>
+{% endblock %}
