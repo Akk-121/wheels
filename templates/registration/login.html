@@ -14,20 +14,21 @@
 
 <table>
 
-<tr class="form-floating">
-  <td >Ваш никнейм: </td>
-  <td >{{ form.username }}</td>
-<tr/>
+    <tr class="form-floating">
+      <td >Ваш никнейм: </td>
+      <td >{{ form.username }}</td>
+    <tr/>
 
-<tr class="form-floating">
-  <td >{{ form.password.label_tag }}</td>
-  <td >{{ form.password }}</td>
-<tr/>
+    <tr class="form-floating">
+      <td >{{ form.password.label_tag }}</td>
+      <td >{{ form.password }}</td>
+    <tr/>
 </table>
 
 <input class="btn btn-success mb-3 mt-4" type="submit" value="Войти" />
 
-</form>
+<a href="{% url 'password_reset' %}"><p>Забыл пароль</p></a>
+
 
 
 <hr class="featurette-divider">

@@ -1,0 +1,98 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}
+    Заявки
+{% endblock %}
+
+
+
+{% block content %}
+    <script type="text/javascript">
+        function StatusOrderApi(ids, status) {
+            $.get(`/api/StatusOrderApi?id=${ids}&st=${status}`).done(result => {
+
+                document.getElementById(`status${ids.toString()}`).innerHTML = '<h5>' + result[0] + '</h5>';
+
+                if ((result[0] == 'Комплектуется') ||  (result[0] == 'В пути') ||  (result[0] == 'Ожидает получения')){
+
+                    let class_name = document.getElementById(ids.toString()).classList;
+                    var elem = document.getElementById(ids.toString());
+
+                    for(let i=0; i<class_name.length; i++) {
+                        if (class_name[i] == 'alert-danger') {
+                            elem.classList.remove(class_name[i]);
+                            elem.classList.add('alert-warning');
+                        }
+                    }
+                } else if (result[0] == 'Выдан'){
+
+                    var class_name = document.getElementById(ids.toString()).classList;
+                    var elem = document.getElementById(ids.toString());
+                    for(let i=0; i<class_name.length; i++) {
+                        if ((class_name[i] == 'alert-warning') || (class_name[i] == 'alert-danger')) {
+                            elem.classList.remove(class_name[i]);
+                            elem.classList.add('alert-success');
+                        }
+                    }
+                    var elem_1 = document.getElementById(`button1${ids.toString()}`);
+                    elem_1.classList.add('disabled');
+
+                    var elem_2 = document.getElementById(`button2${ids.toString()}`);
+                    elem_2.classList.add('disabled');
+
+                    var elem_3 = document.getElementById(`button3${ids.toString()}`);
+                    elem_3.classList.add('disabled');
+
+                    var elem_4 = document.getElementById(`button4${ids.toString()}`);
+                    elem_4.classList.add('disabled');
+
+                }
+            });
+        }
+    </script>
+
+    <div class="container">
+    {% for q in products %}
+        {% if q.status == "Комплектуется" or q.status == "В пути" or q.status == "Ожидает получения" %}
+            <div class="alert alert-warning alert-dismissible fade show" id="{{ q.id }}" role="alert">
+        {% elif q.status == "Выдан" %}
+            <div class="alert alert-success alert-dismissible fade show" id="{{ q.id }}" role="alert">
+        {% else %}
+            <div class="alert  alert-danger alert-dismissible fade show" id="{{ q.id }}" role="alert">
+        {% endif %}
+
+              <h4 class="alert-heading">{{ q.first_name }}</h4>
+              <p>{{ q.about }}</p>
+              <hr>
+            <p class="mb-0"><b>Телефон:</b> <a href="tel:+79612345678">{{ q.number }}</a> <b>Email:</b> {{ q.email }}</p>
+            <p class="mb-0"><b>Товар:</b> <a href="{{ protocol }}{{ domain }}wheels/{{ q.id_product }}">{{ q.product }}</a> <b>Артикул:</b> {{ q.articul }} </p>
+            <p class="mb-0"><b>Цена:</b> {{ q.price }} ₽ <b>Количество:</b> {{ q.ostatok }} шт. </p>
+            <p class="mb-0">{{ q.time }}</p>
+
+            <button type="button" class="btn btn-outline-primary m-1" id="status{{ q.id }}" disabled><h5>{{ q.status }}</h5></button>
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <hr>
+
+            {% if q.status == "Выдан" %}
+                <button class="btn btn-primary rounded-pill px-3 disabled"  >Комплектуется</button>
+                <button class="btn btn-primary rounded-pill px-3 disabled"  >В пути</button>
+                <button class="btn btn-primary rounded-pill px-3 disabled"  >Ожидает получения</button>
+                <button class="btn btn-success rounded-pill px-3 disabled"  >Выдан</button>
+            {% else %}
+                <button class="btn btn-primary rounded-pill px-3 " id="button1{{ q.id }}" onclick="StatusOrderApi({{ q.id }}, 'Комплектуется');">Комплектуется</button>
+                <button class="btn btn-primary rounded-pill px-3" id="button2{{ q.id }}" onclick="StatusOrderApi({{ q.id }}, 'В пути');">В пути</button>
+                <button class="btn btn-primary rounded-pill px-3" id="button3{{ q.id }}"  onclick="StatusOrderApi({{ q.id }}, 'Ожидает получения');">Ожидает получения</button>
+                <button class="btn btn-success rounded-pill px-3" id="button4{{ q.id }}"  onclick="StatusOrderApi({{ q.id }}, 'Выдан');">Выдан</button>
+            {% endif %}
+
+        </div>
+
+    {% endfor %}
+    </div>
+<hr>
+<hr>
+<hr>
+<hr>
+{% endblock %}

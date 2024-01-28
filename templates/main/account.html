@@ -10,6 +10,7 @@
     {% if user.is_authenticated %}
         <div class="container mt-5">
             <h3>{{ user.last_name }} {{ user.first_name }}</h3>
+            <h5>Номер телефона: {{ user.number }}</h5>
             <h5>Email: {{ user.email }}</h5>
         <button onclick="document.location='{% url 'logout' %}?next={{ request.path }}'" type="button" class="btn btn-outline-dark me-2">Выход</button>
         </div>
@@ -18,10 +19,23 @@
 {#        <h3>{{ product.first_name }}</h3>#}
 {#        <h3>{{ product.last_name }}</h3>#}
         <h3></h3>
-        <div class="p-5 mb-4 bg-light rounded-3 container">
-          <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">{{ product.product }}</h1>
-            <p class="col-md-8 fs-4">Using a series of utilities, you can create this jumbotron, just like the one in previous versions of Bootstrap. Check out the examples below for how you can remix and restyle it to your liking.</p>
+        <div class="p-2 mb-1 rounded-3 container">
+          <div class="alert alert-dark alert-dismissible fade show">
+            <a href="{{ protocol }}{{ domain }}wheels/{{ product.id_product }}"><h4 class="fw-bold">{{ product.product }}</h4></a>
+              <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-md-4 g-3 ">
+                  <div class="col">
+                    <p class="col-md-8 fs-4">{{ product.articul }}</p>
+                  </div>
+                  <div class="col">
+                    <p class="col-md-8 fs-4">Сумма: {{ product.price }} ₽</p>
+                  </div>
+                  <div class="col">
+                    <p class="col-md-8 fs-4">Кол-во: {{ product.ostatok }} шт.</p>
+                  </div>
+                  <div class="col">
+                      <button type="button" class="btn btn-outline-primary" disabled><h5><b>{{ product.status }}</b></h5></button>
+                  </div>
+              </div>
             <h6>{{ product.time }}</h6>
           </div>
         </div>

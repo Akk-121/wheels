@@ -1,0 +1,96 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}
+    Заявки
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="container">
+    {% for q in qwe %}
+        {% if q.status == "work" %}
+        <div class="alert alert-warning alert-dismissible fade show" id="{{ q.id }}" role="alert">
+        {% elif q.status == "close" %}
+        <div class="alert alert-success alert-dismissible fade show" id="{{ q.id }}" role="alert">
+        {% else %}
+        <div class="alert alert-dark alert-dismissible fade show" id="{{ q.id }}" role="alert">
+        {% endif %}
+
+              <h4 class="alert-heading">{{ q.first_name }} {{ q.last_name }}</h4>
+              <p>{{ q.about }}</p>
+              <hr>
+            <p class="mb-0"><b>Телефон:</b> <a href="tel:+79612345678">{{ q.number }}</a> <b>Email:</b> {{ q.email }}</p>
+            <p class="mb-0"><b>Товар:</b> {{ q.who }}</p>
+            <p class="mb-0">{{ q.time }}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <hr>
+
+            {% if q.status == "work" %}
+                <button class="btn btn-warning rounded-pill px-3 disabled" id="work{{ q.id }}" onclick="statusapi({{ q.id }}, 'work');">Взять в работу</button>
+                <button class="btn btn-success rounded-pill px-3" id="close{{ q.id }}" onclick="statusapi({{ q.id }}, 'close');">Закрыть</button>
+            {% elif q.status == "close" %}
+                <button class="btn btn-warning rounded-pill px-3" id="work{{ q.id }}" onclick="statusapi({{ q.id }}, 'work');">Взять в работу</button>
+                <button class="btn btn-success rounded-pill px-3 disabled" id="close{{ q.id }}" onclick="statusapi({{ q.id }}, 'close');">Закрыть</button>
+            {% else %}
+                <button class="btn btn-warning rounded-pill px-3" id="work{{ q.id }}" onclick="statusapi({{ q.id }}, 'work');">Взять в работу</button>
+                <button class="btn btn-success rounded-pill px-3" id="close{{ q.id }}" onclick="statusapi({{ q.id }}, 'close');">Закрыть</button>
+            {% endif %}
+
+        </div>
+
+    {% endfor %}
+    </div>
+    <script type="text/javascript">
+
+        function statusapi(ids, status) {
+            $.get(`/api/postStatus?id=${ids}&st=${status}`).done(result => {
+                if (result[0] == 'work') {
+                    let class_name = document.getElementById(ids.toString()).classList;
+                    var elem = document.getElementById(ids.toString());
+
+                    for(let i=0; i<class_name.length; i++) {
+                        if ((class_name[i] == 'alert-success') || (class_name[i] == 'alert-dark')) {
+                            elem.classList.remove(class_name[i]);
+                            elem.classList.add('alert-warning');
+                        }
+                    }
+
+                    let class_name_b = document.getElementById(`work${ids.toString()}`).classList;
+                    var elem = document.getElementById(`work${ids.toString()}`);
+                    elem.classList.remove(class_name_b[4]);
+                    elem.classList.add('disabled');
+
+                    let class_name_b1 = document.getElementById(`close${ids.toString()}`).classList;
+                    var elem = document.getElementById(`close${ids.toString()}`);
+                    elem.classList.remove(class_name_b1[4]);
+
+                } else if (result[0] == 'close'){
+
+                    var class_name = document.getElementById(ids.toString()).classList;
+                    var elem = document.getElementById(ids.toString());
+                    for(let i=0; i<class_name.length; i++) {
+                        if ((class_name[i] == 'alert-warning') || (class_name[i] == 'alert-dark')) {
+                            elem.classList.remove(class_name[i]);
+                            elem.classList.add('alert-success');
+                        }
+                    }
+                    let class_name_b = document.getElementById(`close${ids.toString()}`).classList;
+                    var elem = document.getElementById(`close${ids.toString()}`);
+                    elem.classList.remove(class_name_b[4]);
+                    elem.classList.add('disabled');
+
+                    let class_name_b1 = document.getElementById(`work${ids.toString()}`).classList;
+                    var elem = document.getElementById(`work${ids.toString()}`);
+                    elem.classList.remove(class_name_b1[4]);
+                }
+            });
+        }
+
+    </script>
+<hr>
+<hr>
+<hr>
+<hr>
+{% endblock %}

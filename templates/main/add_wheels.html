@@ -1,0 +1,53 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}
+    Добавление товара
+{% endblock %}
+
+
+
+{% block content %}
+<div class="container mb-2">
+    <div class="row g-5 text-center">
+        <form method="post" enctype="multipart/form-data">
+            <div class="col-md-7 col-lg-8">
+                {% csrf_token %}
+                {{ form1.name }}
+                {{ form1.text }}
+
+                {{ form1.shirina }}
+                {{ form1.profil }}
+                {{ form1.diametr }}
+
+                {{ form1.manufacturer }}
+                {{ form1.model_manufacturer }}
+                <div class="row g-3">
+                    <div class="col-sm-4">
+                        <label for="season" class="form-label">Укажите сезон (Шины)</label>
+                        {{ form1.season }}
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="radio" class="form-label">Укажите категорию</label>
+                        {{ form1.radio }}
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="type" class="form-label">Укажите тип диска (Диски)</label>
+                        {{ form1.type }}
+                    </div>
+                </div>
+
+
+                {{ form1.speed }}
+                {{ form1.ves }}
+                {{ form1.ostatok }}
+
+                {{ form1.price }}
+                {{ form1.img }}
+                <button type="submit" class="btn btn-success">Добавить товар</button>
+            </div>
+        </form>
+        <h5 class="text-warning">{{ text }}</h5>
+    </div>
+</div>
+{% endblock %}

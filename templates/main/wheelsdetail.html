@@ -6,8 +6,29 @@
 {% endblock %}
 
 
-
 {% block content %}
+<script>
+function additions(ids) {
+        var sh = (document.getElementById("sh" + ids.toString()).innerHTML)
+        var pr = (document.getElementById("pr" + ids.toString()).innerHTML)
+        var d = (document.getElementById("d" + ids.toString()).innerHTML)
+
+
+        var price = (document.getElementById("price" + ids.toString()).innerHTML)
+        var name = (document.getElementById("name" + ids.toString()).innerHTML)
+        var art = (document.getElementById("art" + ids.toString()).innerHTML)
+
+        let mass = [sh, pr, d, price, name, art, 1]
+
+        if(localStorage.getItem(ids)){
+        }
+        else {
+            localStorage.setItem(ids, [mass])
+        }
+        var summ = localStorage.length - 1;
+        document.getElementById('len_socket').innerHTML = summ;
+      }
+</script>
 
 <!--<hr class="featurette-divider">-->
 <div class="container mt-1">
@@ -18,8 +39,12 @@
   <div class="bd-example"  style="height: 550px">
           <nav id="navbar-example2" class="navbar bg-light px-3">
             <h3 class="featurette-heading">{{ wheel.name }} <br> {{ wheel.price }}₽</h3>
+
+                <p style="display: none" id="name{{ wheel.id }}">{{ wheel.name }}</p>
+                <p style="display: none" id="price{{ wheel.id }}">{{ wheel.price }}</p>
+
                 {% if user.is_authenticated %}
-                    <button type="button" class="btn btn-sm btn-success"><h3>Купить</h3></button>
+                    <button class="btn btn-sm btn-success" onclick="additions({{ wheel.id }});"><h3>Купить</h3></button>
                 {% else %}
                     <button onclick="document.location='{% url 'login' %}?next={{ request.path }}'" type="button" class="btn btn-outline-success me-3"><h3>Купить</h3></button>
                 {% endif %}
@@ -52,15 +77,16 @@
                         <p class="nav-link px-2 text-dark"><b>Остаток на складе:</b></p>
                   </div>
                   <div class="col">
-                      <p> {{ wheel.diametr }}</p>
-                      <p> {{ wheel.shirina }}</p>
-                      <p> {{ wheel.profil }}</p>
+                      <p id="d{{ wheel.id }}"> {{ wheel.diametr }}</p>
+                      <p id="sh{{ wheel.id }}"> {{ wheel.shirina }}</p>
+                      <p id="pr{{ wheel.id }}"> {{ wheel.profil }}</p>
                       <p> {{ wheel.manufacturer }}</p>
                       <p> {{ wheel.model_manufacturer }}</p>
                       <p> {{ wheel.season }}</p>
                       <p> {{ wheel.speed }}</p>
                       <p> {{ wheel.ves }}</p>
                       <p> {{ wheel.ostatok }}</p>
+                      <p id="art{{ wheel.id }}" style="display: none;">{{ wheel.articul }}</p>
                   </div>
 <!--                <p class="nav-link px-2 text-dark"><b>Ширина:</b> {{ wheel.shirina }}</p>-->
 <!--                <p class="nav-link px-2 text-dark"><b>Профиль:</b> {{ wheel.profil }}</p>-->
@@ -92,7 +118,7 @@
     <div class="carousel-inner">
       <div class="carousel-item active">
           <center>
-        <img class="featurette-image img-fluid mx-auto" alt="фото не отобразилось" src="{{ wheel.img.url }}" data-holder-rendered="true" style="height: 500px">
+            <img class="featurette-image img-fluid mx-auto" alt="фото не отобразилось" src="{{ wheel.img.url }}" data-holder-rendered="true" style="height: 500px">
           </center>
           <div class="container">
           <div class="carousel-caption text-start">
@@ -101,38 +127,38 @@
         </div>
       </div>
 
-      <div class="carousel-item">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-        <div class="container">
-          <div class="carousel-caption">
+<!--      <div class="carousel-item">-->
+<!--        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>-->
+<!--        <div class="container">-->
+<!--          <div class="carousel-caption">-->
 
-          </div>
-        </div>
-      </div>
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
 
-      <div class="carousel-item">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-        <div class="container">
-          <div class="carousel-caption text-end">
+<!--      <div class="carousel-item">-->
+<!--        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>-->
+<!--        <div class="container">-->
+<!--          <div class="carousel-caption text-end">-->
 
-          </div>
-        </div>
-      </div>
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
-     <button class="carousel-control-prev " type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
-          <path fill="#272727" d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.759l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
-        </svg>
-{#      <span class="carousel-control-prev-icon" aria-hidden="true"></span>#}
-{#      <span class="visually-hidden">Previous</span>#}
-    </button>
-    <button class="carousel-control-next " type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
-            <path fill="#272727" d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
-        </svg>
-{#      <span class="carousel-control-next-icon"  aria-hidden="true"></span>#}
-{#      <span class="visually-hidden" >Next</span>#}
-    </button>
+<!--     <button class="carousel-control-prev " type="button" data-bs-target="#myCarousel" data-bs-slide="prev">-->
+<!--        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">-->
+<!--          <path fill="#272727" d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.759l-5.48 4.796a1 1 0 0 0 0 1.506z"/>-->
+<!--        </svg>-->
+<!--{#      <span class="carousel-control-prev-icon" aria-hidden="true"></span>#}-->
+<!--{#      <span class="visually-hidden">Previous</span>#}-->
+<!--    </button>-->
+<!--    <button class="carousel-control-next " type="button" data-bs-target="#myCarousel" data-bs-slide="next">-->
+<!--        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">-->
+<!--            <path fill="#272727" d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>-->
+<!--        </svg>-->
+<!--{#      <span class="carousel-control-next-icon"  aria-hidden="true"></span>#}-->
+<!--{#      <span class="visually-hidden" >Next</span>#}-->
+<!--    </button>-->
   </div>
     </div>
 </div>
@@ -150,6 +176,7 @@
               <div class="col-12">
               <div class="input-group has-validation">
                   {{ form.about }}
+                  {{ form.who }}
 {#                  <textarea style="max-height: 150px" class="form-control" id="text" placeholder="Опишите свой вопрос" required=""></textarea>#}
                 <div class="invalid-feedback">
                   Your username is required.
@@ -202,8 +229,6 @@
         </form>
       </div>
 </div>
-
-
 
 </div>
 

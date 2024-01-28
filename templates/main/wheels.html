@@ -8,14 +8,103 @@
 
 
 {% block content %}
+<script>
+function additions(ids) {
+        var sh = (document.getElementById("sh" + ids.toString()).innerHTML)
+        var pr = (document.getElementById("pr" + ids.toString()).innerHTML)
+        var d = (document.getElementById("d" + ids.toString()).innerHTML)
 
 
-<div class="album py-3 bg-light">
+        var price = (document.getElementById("price" + ids.toString()).innerHTML).replaceAll(' ₽', '')
+        var name = (document.getElementById("name" + ids.toString()).innerHTML)
+        var art = (document.getElementById("art" + ids.toString()).innerHTML)
+
+        let mass = [sh, pr, d, price, name, art, 1]
+        var soc = {};
+
+        if(localStorage.getItem('socket')){
+            soc = JSON.parse(localStorage.getItem('socket'));
+            if (ids in soc){
+            }
+            else {
+                soc[ids] = mass;
+                localStorage.setItem('socket', JSON.stringify(soc));
+            }
+        }
+        else {
+            soc[ids] = mass;
+            localStorage.setItem('socket', JSON.stringify(soc));
+        }
+
+        summ = JSON.parse(localStorage.getItem('socket'));
+        document.getElementById('len_socket').innerHTML = Object.keys(summ).length;
+      }
+
+function get_any(status, radio) {
+    var diam = document.getElementById('diametr').value;
+    var width_prof = document.getElementById('shirina').value;
+    var height_prof = document.getElementById('profil').value;
+    var season = document.getElementById('season').value;
+    var manufacter = document.getElementById('manufacturer').value;
+
+    var long = document.getElementById('long').innerHTML;
+
+    $.get(`/api/getPlus?long=${long}&st=${status}&diam=${diam}&width_prof=${width_prof}&height_prof=${height_prof}&season=${season}&manufacter=${manufacter}&radio=${radio}`).done(result => {
+        if (result[0] == 'ok') {
+            if (status == 'new') {
+                document.getElementById("add_any").innerHTML = '';
+                document.getElementById("clear").innerHTML = '';
+            }
+            document.getElementById("long").innerHTML = result[2];
+            for(key in result[1]) {
+
+
+            document.getElementById("add_any").innerHTML += `<div class="col">
+              <div class="card shadow-lg fluid" style="min-height: 430px;">
+
+                    <img src="http://127.0.0.1:8000/media/${result[1][key]['img']}" class="bd-placeholder-img mx-auto mt-2" height="250px" width="60%" >
+
+                 <div class="card-body" style="height: 90px;">
+
+                    <div class="name_wheels">
+                        <a href="http://127.0.0.1:8000/wheels/${result[1][key]['id']}">
+                          <center>
+                            <h5 class="text-dark mt-1 container" style="font: small-caps bold 20px/1 sans-serif;" id="name${result[1][key]['id']}">${result[1][key]['name']}</h5>
+                          </center>
+                        </a>
+                    </div>
+
+                <div class="col d-flex mb-1">
+                         <button type="button" id="sh${result[1][key]['shirina']}" class="inner2 btn btn-outline-dark me-1" style="font: small-caps bold 16px/1 sans-serif;" hover-text="Ширина: ">${result[1][key]['shirina']}</button>
+                         <button type="button" id="pr${result[1][key]['profil']}" class="inner3 btn btn-outline-dark me-1" style="font: small-caps bold 16px/1 sans-serif;"hover-text="Профиль: ">${result[1][key]['profil']}</button>
+                        <button type="button" id="d${result[1][key]['diametr']}" class="inner1 btn btn-outline-dark me-1" style="font: small-caps bold 16px/1 sans-serif;" hover-text="Диаметр: ">${result[1][key]['diametr']}</button>
+                </div>
+
+                     <button class="btn btn-outline-warning text-dark" onclick="additions(${result[1][key]['id']});" id="price${result[1][key]['id']}" style="font: small-caps bold 20px/1 sans-serif;">${result[1][key]['price']} ₽
+
+                     </button>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">
+                          <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                        </svg>
+                    <p id="art${result[1][key]['id']}" style="display: none;">${result[1][key]['articul']}</p>
+                  </div>
+              </div>
+            </div>`;
+
+
+            }
+        }
+        else if (result[0] == 'not object'){
+            alert(result[1]);
+        }
+    });
+}
+</script>
+
+<div class="album py-3">
 <div class="container">
-<form class="needs-validation" novalidate="" method="post">
-    {% csrf_token %}
-
     <div class="row justify-content-auto mb-3">
+
         <div class="col-sm-2 mb-1">
         {{ form.diametr }}
         </div>
@@ -36,7 +125,7 @@
         </div>
         <div class="col-sm-2 mb-1">
             <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-outline-secondary"> Найти </button>
+                <button type="button" class="btn btn-outline-secondary" onclick="get_any('new', 'Шины');"> Найти </button>
             </div>
         </div>
 
@@ -44,44 +133,62 @@
 </form>
 
 {% if long > 0 %}
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+<div id='clear' class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-md-4 g-3 ">
     {% for element in shop %}
 
-            <a href="{% url 'wheelsdetail' element.id %}">
 
-            <div class="col" style="box-shadow: 3px 3px 2px 2px rgba(0,0,0,0.5); border-radius: 4px 4px 4px 4px;">
-              <div class="card shadow-sm">
-                    <img src="{{ element.img.url }}" class="bd-placeholder-img mx-auto mt-2" height="300" width="60%">
-    {#            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>#}
+            <div class="col">
+              <div class="card shadow-lg fluid" style="min-height: 430px;">
 
-                <div class="card-body">
-                    <p class="card-text"><b>{{ element.radio }} {{ element.name }} </b></p>
-                    <p class="text">{{ element.price }} ₽</p>
+                    <img src="{{ element.img.url }}" class="bd-placeholder-img mx-auto mt-2" height="250px" width="60%" >
+<!-img-fluid--->
+                 <div class="card-body" style="height: 90px;">
 
-                  <div class="d-flex justify-content-between align-items-center">
-
-                    <div class="btn-group">
-    {#    card-img-top              <button onclick="document.location='{% url 'shoplist' element.id %}?next={{ request.path }}'" type="button" class="btn btn-sm btn-outline-secondary">Купить</button>#}
-    {#                  <button onclick="document.location='{% url 'wheelsdetail' element.id %}?next={{ request.path }}'" type="button" class="btn btn-sm btn-outline-secondary">Подробнее</button>#}
+                    <div class="name_wheels">
+                        <a href="{% url 'wheelsdetail' element.id %}">
+                          <center>
+                            <h5 class="text-dark mt-1 container" style="font: small-caps bold 20px/1 sans-serif;" id="name{{ element.id }}">{{ element.name }}</h5>
+                          </center>
+                        </a>
                     </div>
-                    <small class="text-muted">Диаметр {{ element.diametr }}</small>
-                      <small class="text-muted">Ширина {{ element.shirina }}</small>
-                      <small class="text-muted">Профиль {{ element.profil }}</small>
 
-                  </div>
-
+                <div class="col d-flex mb-1">
+                         <button type="button" id="sh{{ element.id }}" class="inner2 btn btn-outline-dark me-1" style="font: small-caps bold 16px/1 sans-serif;" hover-text="Ширина: ">{{ element.shirina }}</button>
+                         <button type="button" id="pr{{ element.id }}" class="inner3 btn btn-outline-dark me-1" style="font: small-caps bold 16px/1 sans-serif;"hover-text="Профиль: ">{{ element.profil }}</button>
+                        <button type="button" id="d{{ element.id }}" class="inner1 btn btn-outline-dark me-1" style="font: small-caps bold 16px/1 sans-serif;" hover-text="Диаметр: ">{{ element.diametr }}</button>
                 </div>
+
+                     <button class="btn btn-outline-warning text-dark" onclick="additions({{ element.id }});" id="price{{ element.id }}" style="font: small-caps bold 20px/1 sans-serif;">{{ element.price }} ₽
+
+                     </button>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">
+                          <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                        </svg>
+                    <p id="art{{ element.id }}" style="display: none;">{{ element.articul }}</p>
+                  </div>
               </div>
             </div>
-            </a>
 
     {% endfor %}
-      </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-md-4 g-3 mt-2" id="add_any">
+    </div>
+
+    <p style="display: None;" id="long">{{ long }}</p>
+    <center>
+        <button class="mt-2 btn btn-warning" onclick="get_any('add', 'Шины');">Ещё</button>
+    </center>
+
+    <hr>
+    <hr>
 {% else %}
     <h3>К сожалению по вашему запросу ничего не найдено</h3>
     <p>Попробуйте изменить критерии поиска</p>
 {% endif %}
+
     </div>
 </div>
+
 
 {% endblock %}

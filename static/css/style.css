@@ -9,6 +9,10 @@ body {
 /*.form-control-dark {*/
 /*  border-color: var("--bs-gray");*/
 /*}*/
+li {
+  list-style-type: none;
+  /* Убираем маркеры */
+}
 
 .form-control-dark:focus {
   border-color: #fff;
@@ -129,4 +133,61 @@ body {
 /* Declare heights because of positioning of img element */
 .carousel-item {
   height: 32rem;
+}
+
+
+.name_wheels {
+    border-radius: 5px;
+    opacity: 87%;
+    min-height: 72px;
+}
+
+.tooltip{
+     position:absolute;
+	 left:-2000px;
+	 background:#dedede;
+	 padding:5px;
+	 border:1px solid #fff;
+	 width:250px;
+}
+
+.tooltip p{
+     margin:0;
+	 padding:0;
+	 color:#fff;
+	 background:#222;
+	 padding:2px 7px;
+}
+
+
+.inner1:hover {
+    width: 150px;
+    height: 31px;
+    position: absolute;
+}
+
+.inner1:hover::before {
+  content: attr(hover-text);
+}
+
+.inner2:hover {
+    width: 150px;
+    height: 31px;
+    position: absolute;
+    left: 16px;
+}
+
+.inner2:hover::before {
+  content: attr(hover-text);
+}
+
+.inner3:hover {
+    width: 150px;
+    height: 31px;
+    position: absolute;
+    left: 16px;
+}
+
+.inner3:hover::before {
+  content: attr(hover-text);
 }

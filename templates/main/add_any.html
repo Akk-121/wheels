@@ -1,0 +1,28 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}
+    Добавление товаров
+{% endblock %}
+
+
+
+{% block content %}
+<script>
+
+</script>
+
+<div class="container mb-2">
+    <div class="row g-5 text-center">
+        <form method="post" enctype="multipart/form-data">
+            <div class="col-md-7 col-lg-8">
+                {% csrf_token %}
+                    {{ form1.name }}
+                    {{ form1.file }}
+                <button type="submit" class="btn btn-success">Загрузить</button>
+            </div>
+        </form>
+        <h5 class="text-warning">{{ text }}</h5>
+    </div>
+</div>
+{% endblock %}
